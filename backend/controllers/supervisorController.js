@@ -1,10 +1,41 @@
+const User = require('../models/user');
 const PhDGrade = require('../models/phdGrade');
 
-exports.getDashboard = (req, res) => {
-    // Retrieve necessary data for the supervisor dashboard
-    // Send the data as a response
-    res.json({ message: 'Supervisor dashboard data' });
-};
+exports.getDashboard = async (req, res) => {
+    try {
+        const supervisorId = req.user._id;
+
+        // Retrieve the count of students supervised by the logged-in supervisor
+        const studentCount = await User.countDocuments({
+            supervisor: supervisorId,
+            role: 'student'
+        });
+
+        // Retrieve the count of PhD grades submitted by the students of the logged-in supervisor
+        const submittedGradesCount = await PhDGrade.countDocuments({
+            supervisorId: supervisorId,
+            supervisorSignature: { $exists: true }
+        });
+
+        // Retrieve the count of PhD grades pending supervisor signature
+        const pendingGradesCount = await PhDGrade.countDocuments({
+            supervisorId: supervisorId,
+            supervisorSignature: { $exists: false }
+        });
+
+        // Prepare the dashboard data
+        const dashboardData = {
+            studentCount,
+            submittedGradesCount,
+            pendingGradesCount
+        };
+
+        res.json(dashboardData);
+    } catch (error) {
+        console.error('Error retrieving supervisor dashboard data:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};;
 
 exports.getStudents = (req, res) => {
     const supervisorId = req.user._id;

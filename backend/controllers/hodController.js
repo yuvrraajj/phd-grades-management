@@ -1,10 +1,34 @@
 const PhDGrade = require('../models/phdGrade');
 const User = require('../models/user');
 
-exports.getDashboard = (req, res) => {
-    // Retrieve necessary data for the head of department dashboard
-    // Send the data as a response
-    res.json({ message: 'Head of Department dashboard data' });
+
+exports.getDashboard = async (req, res) => {
+    try {
+        // Retrieve the count of all PhD grades
+        const totalGradesCount = await PhDGrade.countDocuments();
+
+        // Retrieve the count of PhD grades pending HOD signature
+        const pendingGradesCount = await PhDGrade.countDocuments({
+            hodSignature: 'unsigned'
+        });
+
+        // Retrieve the count of PhD grades signed by the HOD
+        const signedGradesCount = await PhDGrade.countDocuments({
+            hodSignature: 'signed'
+        });
+
+        // Prepare the dashboard data
+        const dashboardData = {
+            totalGradesCount,
+            pendingGradesCount,
+            signedGradesCount
+        };
+
+        res.json(dashboardData);
+    } catch (error) {
+        console.error('Error retrieving HOD dashboard data:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 };
 
 exports.getPhDGrades = (req, res) => {

@@ -1,9 +1,30 @@
 const PhDGrade = require('../models/phdGrade');
 
-exports.getDashboard = (req, res) => {
-    // Retrieve necessary data for the student dashboard
-    // Send the data as a response
-    res.json({ message: 'Student dashboard data' });
+exports.getDashboard = async (req, res) => {
+    try {
+        const studentId = req.user._id;
+
+        // Retrieve the PhD grade for the logged-in student
+        const phdGrade = await PhDGrade.findOne({ studentId: studentId });
+
+        if (!phdGrade) {
+            return res.status(404).json({ error: 'PhD grade not found' });
+        }
+
+        // Prepare the dashboard data
+        const dashboardData = {
+            tpPlsGrade: phdGrade.tpPlsGrade,
+            seminarGrade: phdGrade.seminarGrade,
+            thesisGrade: phdGrade.thesisGrade,
+            supervisorSignature: phdGrade.supervisorSignature ? 'Signed' : 'Pending',
+            hodSignature: phdGrade.hodSignature === 'signed' ? 'Signed' : 'Pending'
+        };
+
+        res.json(dashboardData);
+    } catch (error) {
+        console.error('Error retrieving student dashboard data:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 };
 
 exports.getPhDGrade = (req, res) => {
