@@ -1,69 +1,44 @@
 const express = require('express');
-const session = require('express-session');
-const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-// Initialize express-session middleware
-app.use(session({
-    secret: 'your_secret_key',
-    resave: false,
-    saveUninitialized: true
-}));
+// Middleware setup
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
-// Initialize Passport
-app.use(passport.initialize());
-app.use(passport.session());
-
-// Passport configuration for Google OAuth
-passport.use(new GoogleStrategy({
-    clientID: 'YOUR_GOOGLE_CLIENT_ID',
-    clientSecret: 'YOUR_GOOGLE_CLIENT_SECRET',
-    callbackURL: 'http://localhost:3000/auth/google/callback'
-}, (accessToken, refreshToken, profile, done) => {
-    // This function is called after successful authentication
-    // Use profile information to create or find user in your database
-    return done(null, profile);
-}));
-
-// Serialize user into the session
-passport.serializeUser((user, done) => {
-    done(null, user);
-});
-
-// Deserialize user from the session
-passport.deserializeUser((user, done) => {
-    done(null, user);
-});
-
-// Routes
-app.get('/', (req, res) => {
-    res.send('Home Page');
-    
-});
-
-// Google OAuth route for authentication
-app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-
-// Google OAuth callback route
-app.get('/auth/google/callback', passport.authenticate('google', {
-    successRedirect: '/dashboard',
-    failureRedirect: '/'
-}));
-
-// Dashboard route after successful authentication
-app.get('/dashboard', (req, res) => {
-    if (req.isAuthenticated()) {
-        // User is authenticated, you can handle dashboard logic here
-        res.send(`Welcome, ${req.user.displayName}!`);
-    } else {
-        res.redirect('/');
+// Database connection
+const db = require('./config/database');
+db.connect((err) => {
+    if (err) {
+        console.error('Error connecting to the database:', err);
+        process.exit(1);
     }
+    console.log('Connected to the database');
+});
+
+// Route imports
+const adminRoutes = require('./routes/adminRoutes');
+const supervisorRoutes = require('./routes/supervisorRoutes');
+const hodRoutes = require('./routes/hodRoutes');
+const studentRoutes = require('./routes/studentRoutes');
+
+// Route mappings
+app.use('/admin', adminRoutes);
+app.use('/supervisor', supervisorRoutes);
+app.use('/hod', hodRoutes);
+app.use('/student', studentRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Internal Server Error' });
 });
 
 // Start the server
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
 });
