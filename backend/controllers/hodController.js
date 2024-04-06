@@ -1,6 +1,7 @@
 const PhdGrade = require('../models/PhdGrade');
 const User = require('../models/User');
 const nodemailer = require('nodemailer');
+const emailService = require('../utils/emailService');
 
 
 exports.getDashboard = async (req, res) => {
@@ -44,28 +45,31 @@ exports.getPhDGrades = (req, res) => {
     });
 };
 
-exports.approvePhDGrade = (req, res) => {
-    const gradeId = req.params.id;
-
-    // Find the PhD grade by ID and update the HOD signature
-    PhDGrade.findByIdAndUpdate(
-        gradeId,
-        { hodSignature: 'signed' },
-        { new: true },
-        (err, grade) => {
-            if (err) {
-                console.error('Error approving PhD grade:', err);
-                return res.status(500).json({ error: 'Internal Server Error' });
-            }
-
-            if (!grade) {
-                return res.status(404).json({ error: 'PhD grade not found' });
-            }
-
-            res.json(grade);
+exports.approvePhDGrade = async (req, res) => {
+    try {
+        const updatedPhdGrade = await PhdGrade.findByIdAndUpdate(
+            req.params.id,
+            { hodSignature: 'signed' },
+            { new: true }
+        );
+        if (!updatedPhdGrade) {
+            return res.status(404).json({ message: 'PhD grade not found' });
         }
-    );
+
+        // Send email notification to the student
+        const student = await User.findById(updatedPhdGrade.studentId);
+        if (student) {
+            const subject = 'PhD Grade Approved';
+            const text = 'Your PhD grade has been approved by the HOD. You can now download your grade.';
+            await emailService.sendEmailNotification(student.email, subject, text);
+        }
+
+        res.json({ message: 'PhD grade approved successfully', updatedPhdGrade });
+    } catch (error) {
+        res.status(400).json({ message: 'Error approving PhD grade', error: error.message });
+    }
 };
+
 
 exports.getStudentList = (req, res) => {
     // Retrieve all students from the database
