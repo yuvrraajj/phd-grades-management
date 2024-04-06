@@ -56,6 +56,6 @@ The code is organized into the following files and folders:
 - **routes:** Defines API endpoints for different user roles and functionalities.
 - **controllers:** Implements the logic for handling API requests.
 - **middlewares:** Provides middleware functions for authentication and authorization.
-- **utils:** Contains utility functions for email notifications and other tasks.
+- **utils:** Contains utility functions for email notifications.
 - **config:** Holds configuration settings for the database and other services.
 - **app.js:** The main application file that initializes the Express app, middleware, and routes.
