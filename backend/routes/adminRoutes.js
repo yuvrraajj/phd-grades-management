@@ -1,15 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const adminController = require('../controllers/adminController');
+const passport = require('passport');
 
-const express = require('express');
-const router = express.Router();
-const adminController = require('../controllers/adminController');
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-router.post('/login', adminController.login);
-router.get('/dashboard', adminController.getDashboard);
-// Add other admin routes
+router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login' }),
+    (req, res) => {
+        // Redirect to the appropriate page after successful authentication
+        res.redirect('/dashboard');
+    }
+);
 
-module.exports = router;
+router.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/');
+});
 
 module.exports = router;
