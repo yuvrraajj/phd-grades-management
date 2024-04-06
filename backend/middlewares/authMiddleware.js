@@ -1,4 +1,3 @@
-// middlewares/authMiddleware.jsdd
 
 // Middleware to check if the user is authenticated
 function isAuthenticated(req, res, next) {
