@@ -1,25 +1,42 @@
 const mongoose = require('mongoose');
 
-// User Schema
-const userSchema = new mongoose.Schema({
-    user_email_id: { type: String, unique: true },
-    name: String,
-    roles: String
+const UserSchema = new mongoose.Schema({
+  googleId: {
+    type: String,
+    required: true
+  },
+  displayName: {
+    type: String,
+    required: true
+  },
+  firstName: {
+    type: String,
+    required: true
+  },
+  lastName: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  role: {
+    type: String,
+    enum: ['Admin', 'Faculty', 'HOD', 'Student'],
+    required: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
 });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', UserSchema);
 
-// PhDGrade Schema
-const phdGradeSchema = new mongoose.Schema({
-    author_id: String,
-    student_id: String,
-    tp_pls_grade: String,
-    seminar_grade: String,
-    thesis_grade: String,
-    supervisor_author_id: String,
-    hod_signature: { type: String, default: 'unsigned' }
-});
 
-const PhDGrade = mongoose.model('PhDGrade', phdGradeSchema);
+module.exports={
+    User
+}
 
-module.exports = { User, PhDGrade };
