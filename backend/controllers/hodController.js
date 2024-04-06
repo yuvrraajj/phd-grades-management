@@ -1,5 +1,6 @@
-const PhDGrade = require('../models/phdGrade');
-const User = require('../models/user');
+const PhdGrade = require('../models/PhdGrade');
+const User = require('../models/User');
+const nodemailer = require('nodemailer');
 
 
 exports.getDashboard = async (req, res) => {
@@ -132,4 +133,54 @@ exports.deletePhDGrade = (req, res) => {
 
         res.json({ message: 'PhD grade deleted successfully' });
     });
+};
+exports.getPendingPhDGrades = async (req, res) => {
+    try {
+        const pendingGrades = await PhdGrade.find({ hodSignature: 'unsigned' });
+        res.json({ pendingGrades });
+    } catch (error) {
+        res.status(500).json({ message: 'Error retrieving pending PhD grades', error: error.message });
+    }
+};
+
+// Function to approve a PhD grade by HOD
+exports.approvePhDGrade = async (req, res) => {
+    try {
+        const updatedPhdGrade = await PhdGrade.findByIdAndUpdate(
+            req.params.id,
+            { hodSignature: 'signed' },
+            { new: true }
+        );
+        if (!updatedPhdGrade) {
+            return res.status(404).json({ message: 'PhD grade not found' });
+        }
+
+        // Send email notification to the student
+        const student = await User.findById(updatedPhdGrade.studentId);
+        if (student) {
+            const transporter = nodemailer.createTransport({
+                // Configure your email service provider (e.g., Gmail, SendGrid, etc.)
+                // ...
+            });
+
+            const mailOptions = {
+                from: 'your-email@example.com',
+                to: student.email,
+                subject: 'PhD Grade Approved',
+                text: 'Your PhD grade has been approved by the HOD. You can now download your grade.',
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.log('Error sending email:', error);
+                } else {
+                    console.log('Email sent:', info.response);
+                }
+            });
+        }
+
+        res.json({ message: 'PhD grade approved successfully', updatedPhdGrade });
+    } catch (error) {
+        res.status(400).json({ message: 'Error approving PhD grade', error: error.message });
+    }
 };
