@@ -1,4 +1,46 @@
-const PhDGrade = require('../models/phdGrade');
+const PhdGrade = require('../models/PhdGrade');
+const PDFDocument = require('pdfkit');
+
+// Function to generate and download PDF of signed PhD grade
+exports.downloadPhDGradePDF = async (req, res) => {
+    try {
+        const phdGrade = await PhdGrade.findOne({ _id: req.params.id, studentId: req.user._id });
+        if (!phdGrade) {
+            return res.status(404).json({ message: 'PhD grade not found' });
+        }
+
+        if (phdGrade.supervisorSignature && phdGrade.hodSignature === 'signed') {
+            // Create a new PDF document
+            const doc = new PDFDocument();
+
+            // Set the response headers for PDF download
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', `attachment; filename="phd_grade_${phdGrade._id}.pdf"`);
+
+            // Pipe the PDF document to the response
+            doc.pipe(res);
+
+            // Add content to the PDF document
+            doc.fontSize(18).text('PhD Grade Report', { align: 'center' });
+            doc.moveDown();
+            doc.fontSize(12).text(`Student ID: ${phdGrade.studentId}`);
+            doc.moveDown();
+            doc.text(`TP/PLS Grade: ${phdGrade.tpPlsGrade}`);
+            doc.text(`Seminar/Independent Study Grade: ${phdGrade.seminarIndependentStudyGrade}`);
+            doc.text(`Thesis Grade: ${phdGrade.thesisGrade}`);
+            doc.moveDown();
+            doc.text(`Supervisor Signature: ${phdGrade.supervisorSignature ? 'Signed' : 'Pending'}`);
+            doc.text(`HOD Signature: ${phdGrade.hodSignature}`);
+
+            // End the PDF document
+            doc.end();
+        } else {
+            return res.status(400).json({ message: 'PhD grade is not fully signed' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Error generating PDF', error: error.message });
+    }
+};
 
 exports.getDashboard = async (req, res) => {
     try {
