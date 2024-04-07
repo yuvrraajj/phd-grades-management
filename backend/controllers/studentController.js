@@ -1,4 +1,4 @@
-const PhdGrade = require('../models/PhdGrade');
+const PhdGrade = require('../models/phdGrade');
 const PDFDocument = require('pdfkit');
 
 // Function to generate and download PDF of signed PhD grade

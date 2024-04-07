@@ -9,9 +9,9 @@ router.get('/students/:id/grades', isAuthenticated, isHOD, hodController.getStud
 router.put('/grades/:id', isAuthenticated, isHOD, hodController.updatePhDGrade);
 router.delete('/grades/:id', isAuthenticated, isHOD, hodController.deletePhDGrade);
 // GET route to retrieve all pending PhD grades for HOD approval
-router.get('/phd-grades/pending', authMiddleware.isHOD, hodController.getPendingPhDGrades);
+// router.get('/phd-grades/pending', authMiddleware.isHOD, hodController.getPendingPhDGrades);
 
 // PUT route to approve a PhD grade by HOD
-router.put('/phd-grades/:id/approve', authMiddleware.isHOD, hodController.approvePhDGrade);
+// router.put('/phd-grades/:id/approve', authMiddleware.isHOD, hodController.approvePhDGrade);
 
 module.exports = router;

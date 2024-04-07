@@ -1,7 +1,7 @@
-const PhdGrade = require('../models/PhdGrade');
-const User = require('../models/User');
-const nodemailer = require('nodemailer');
-const emailService = require('../utils/emailService');
+const PhdGrade = require('../models/phdGrade');
+const User = require('../models/user');
+// const nodemailer = require('nodemailer');
+// const emailService = require('../utils/emailService');
 
 
 exports.getDashboard = async (req, res) => {
@@ -57,12 +57,12 @@ exports.approvePhDGrade = async (req, res) => {
         }
 
         // Send email notification to the student
-        const student = await User.findById(updatedPhdGrade.studentId);
-        if (student) {
-            const subject = 'PhD Grade Approved';
-            const text = 'Your PhD grade has been approved by the HOD. You can now download your grade.';
-            await emailService.sendEmailNotification(student.email, subject, text);
-        }
+        // const student = await User.findById(updatedPhdGrade.studentId);
+        // if (student) {
+        //     const subject = 'PhD Grade Approved';
+        //     const text = 'Your PhD grade has been approved by the HOD. You can now download your grade.';
+        //     await emailService.sendEmailNotification(student.email, subject, text);
+        // }
 
         res.json({ message: 'PhD grade approved successfully', updatedPhdGrade });
     } catch (error) {
@@ -160,28 +160,28 @@ exports.approvePhDGrade = async (req, res) => {
         }
 
         // Send email notification to the student
-        const student = await User.findById(updatedPhdGrade.studentId);
-        if (student) {
-            const transporter = nodemailer.createTransport({
-                // Configure your email service provider (e.g., Gmail, SendGrid, etc.)
-                // ...
-            });
+        // const student = await User.findById(updatedPhdGrade.studentId);
+        // if (student) {
+        //     // const transporter = nodemailer.createTransport({
+        //     //     // Configure your email service provider (e.g., Gmail, SendGrid, etc.)
+        //     //     // ...
+        //     // });
 
-            const mailOptions = {
-                from: 'your-email@example.com',
-                to: student.email,
-                subject: 'PhD Grade Approved',
-                text: 'Your PhD grade has been approved by the HOD. You can now download your grade.',
-            };
+        //     const mailOptions = {
+        //         from: 'your-email@example.com',
+        //         to: student.email,
+        //         subject: 'PhD Grade Approved',
+        //         text: 'Your PhD grade has been approved by the HOD. You can now download your grade.',
+        //     };
 
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {
-                    console.log('Error sending email:', error);
-                } else {
-                    console.log('Email sent:', info.response);
-                }
-            });
-        }
+        //     // transporter.sendMail(mailOptions, (error, info) => {
+        //     //     if (error) {
+        //     //         console.log('Error sending email:', error);
+        //     //     } else {
+        //     //         console.log('Email sent:', info.response);
+        //     //     }
+        //     // });
+        // }
 
         res.json({ message: 'PhD grade approved successfully', updatedPhdGrade });
     } catch (error) {

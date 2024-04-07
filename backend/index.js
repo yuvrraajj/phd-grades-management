@@ -9,7 +9,7 @@ const app = express();
 
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost/your-database', {
+mongoose.connect('mongodb+srv://admin:Yuvi*4159@cluster0.aqgwmvt.mongodb.net/', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
@@ -33,14 +33,14 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 // Database connection
-const db = require('./config/database');
-db.connect((err) => {
-    if (err) {
-        console.error('Error connecting to the database:', err);
-        process.exit(1);
-    }
-    console.log('Connected to the database');
-});
+// const db = require('./config/database');
+// db.connect((err) => {
+//     if (err) {
+//         console.error('Error connecting to the database:', err);
+//         process.exit(1);
+//     }
+//     console.log('Connected to the database');
+// });
 
 // Route imports
 const adminRoutes = require('./routes/adminRoutes');
