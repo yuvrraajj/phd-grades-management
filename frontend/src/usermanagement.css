@@ -50,7 +50,16 @@
 
 }
 
-
+.dropdown{
+    position: fixed;
+    /* top: -102%; */
+    width: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(40, 37, 37, 0.552);
+    height: 100px;
+    transition: top 0.3s ease;
+}
 .usertable{
     height: 50px;
     width: 100%;
@@ -97,3 +106,24 @@
 .usersarea:last-child{
     border-bottom: 2px solid black;
 }
+
+.dropdownMenu {
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    right: 10%;
+  }
+  
+  .dropdownOption {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdownOption:hover {
+    background-color: #f1f1f1;
+  }
+  
