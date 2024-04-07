@@ -1,0 +1,98 @@
+.parentusermanag{
+    height: 100vh;
+    width: 100vw;
+    background-color: white;
+}
+
+.usersarea{
+    position: absolute;
+    top: 50px;
+    min-height: 60vh;
+    width: 70%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap:0px;
+}
+
+
+.userid{
+    grid-column: 1/2;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 2px solid black;
+
+}
+
+.username{
+    grid-column: 2/3;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 2px solid black;
+
+}
+
+.role{
+
+    grid-column: 3/4;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+.usertable{
+    height: 50px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 1fr;
+    font-size: 20px;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    border-right: 2px solid black;
+    border-left: 2px solid black;
+}
+.editbutton{
+    grid-column: 4/5;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: aliceblue;
+}
+
+.editbutton:hover{
+    background-color: grey;
+}
+.usersarea > :nth-child(1) {
+    /* Styles for the first child of each .usersarea */
+
+
+    border-top: 2px solid black;
+    font-size: 25px;
+    background-color: rgb(139, 195, 195);
+    font-weight: bold;
+
+}
+
+.usersarea > :nth-child(1) .editbutton {
+    /* Styles for the first child of each .usersarea */
+
+  background-color: transparent;
+   display: none;
+
+}
+
+.usersarea:last-child{
+    border-bottom: 2px solid black;
+}

@@ -1,0 +1,63 @@
+.parentstudent{
+    height: 100vh;
+    width: 100vw;
+    background-color: white;
+  }
+
+.boxmenus{
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(0%,-50%);
+    width: 100%;
+    background-color: transparent;
+    height: 60vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.boxoption{
+
+    height: 60%;
+    width: 20%;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.boxtopic{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: white;
+    font-size: 30px;
+    text-align: center;
+}
+
+.courses{
+    background-color: rgb(63, 169, 169);
+
+}
+
+.projects
+{
+    background-color: rgb(163, 74, 74);
+
+}
+
+.grades{
+    background-color: rgb(81, 158, 81);
+
+}
+
+.thesis{
+    background-color: rgb(154, 77, 154);
+
+}
+
+
+.boxoption:hover{
+    transform: scale(1.2);
+}
+
