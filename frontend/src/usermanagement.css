@@ -69,6 +69,7 @@
     align-items: center;
     justify-content: center;
     background-color: aliceblue;
+    border: none;
 }
 
 .editbutton:hover{

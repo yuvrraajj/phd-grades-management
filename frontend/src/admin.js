@@ -23,13 +23,13 @@ export default function Home() {
                     <div className="courses boxoption" onClick={() => nav('/usermanagement')}>
                         <div className="boxtopic">USER MANAGEMENT</div>
                     </div>
-                    <div className="grades boxoption">
-                        <div className="boxtopic">ROLE BASED ACCESS</div>
+                    <div className="grades boxoption" onClick={() => nav('/maintenance')}>
+                        <div className="boxtopic" >ROLE BASED ACCESS</div>
                     </div>
-                    <div className="projects boxoption">
+                    <div className="projects boxoption" onClick={() => nav('/maintenance')}>
                         <div className="boxtopic">SYSTEM MANAGEMENT</div>
                     </div>
-                    <div className="thesis boxoption">
+                    <div className="thesis boxoption" onClick={() => nav('/maintenance')}>
                         <div className="boxtopic">SETTINGS AND CONFIG</div>
                     </div>
                 </div>

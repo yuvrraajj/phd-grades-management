@@ -24,17 +24,18 @@ export default function Home() {
             </div>
             <div className="maincontent">
                 <div className="boxmenus">
-                    <div className="courses boxoption">
-                        <div className="boxtopic">COURSES</div>
-                    </div>
-                    <div className="grades boxoption" onClick={() => handleNavigate('/studentgrades')}>
+                <div className="grades boxoption" onClick={() => handleNavigate('/studentgrades')}>
                         <div className="boxtopic">GRADES</div>
                     </div>
+                    <div className="courses boxoption">
+                        <div className="boxtopic" onClick={() => nav('/maintenance')}>COURSES</div>
+                    </div>
+                    
                     <div className="projects boxoption">
-                        <div className="boxtopic">PROJECTS</div>
+                        <div className="boxtopic" onClick={() => nav('/maintenance')}>PROJECTS</div>
                     </div>
                     <div className="thesis boxoption">
-                        <div className="boxtopic">THESIS</div>
+                        <div className="boxtopic" onClick={() => nav('/maintenance')}>THESIS</div>
                     </div>
                 </div>
             </div>

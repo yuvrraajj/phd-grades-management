@@ -13,6 +13,9 @@ export default function Home() {
       case 'stud':
         nav('/student');
         break;
+        case 'fac':
+        nav('/faculty');
+        break;
       // Add cases for other roles if needed
       default:
         // Handle the default case or do nothing
@@ -36,9 +39,10 @@ export default function Home() {
         <div className="maincontent">
           <div className="loginoptions">
             <div className="loginbutton" onClick={() => handlenavigate('admin')}>LOGIN AS ADMIN</div>
-            <div className="loginbutton">LOGIN AS HoD</div>
-            <div className="loginbutton">LOGIN AS FACULTY</div>
+            
+            <div className="loginbutton" onClick={() => handlenavigate('fac')}>LOGIN AS FACULTY </div>
             <div className="loginbutton" onClick={() => handlenavigate('stud')}>LOGIN AS STUDENT</div>
+            <div className="loginbutton" onClick={() => nav('/maintenance')}>LOGIN AS HoD</div>
           </div>
           <div className="phdnews">
             <div className="newsheading"><strong>SITE ANNOUNCEMENTS</strong></div>

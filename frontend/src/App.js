@@ -3,6 +3,9 @@ import Home from './Home.jsx';
 import Student from './Student.jsx';
 import Admin from './admin.js';
 import UserManag from './usermanagement.js'
+import Faculty from './faculty.js'
+import GradeMan from './grademanagement.js'
+import Maintain from './underconstruction.js';
 
 // import Studentcourses from './studentcourses.js'
 // import Studentprojects from './studentprojects.js'
@@ -25,6 +28,9 @@ function App() {
         <Route path='/studentgrades' element={<Studentgrades/>}/>
         <Route path='/admin' element={<Admin/>}/>
         <Route path='/usermanagement' element={<UserManag/>}/>
+        <Route path='/faculty' element={<Faculty/>}/>
+        <Route path='/grademanagement' element={<GradeMan/>}/>
+        <Route path='/maintenance' element={<Maintain/>}/>
 
 
         {/* <Route path='/studentprojects' element={<Studentprojects/>}/>
