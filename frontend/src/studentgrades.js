@@ -1,12 +1,8 @@
-import React, { useEffect } from "react";
-import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 
 import "./Studentgrades.css";
 export default function Home() {
-    const nav=useNavigate();
-
-    const options = ["COURSES", "GRADES", "PROJECTS", "ASSISTANT COURSES"];
+    
     const cs_courses = [
         {"grade": "A", "course_id": "CSCI101", "course_name": "Introduction to Computer Science"},
         {"grade": "B+", "course_id": "CSCI201", "course_name": "Data Structures"},
