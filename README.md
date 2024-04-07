@@ -1,3 +1,13 @@
+Website project is hosted at : phd-gms.netlify.app
+
+Team : Null Pointers
+Akshat Ajmera
+Ayush Malik
+Joydeep Saha
+Ayush Malik
+
+
+
 # PhD Grade Management System - Backend
 
 This repository contains the backend code for a web-based PhD grade management system developed for the CSIS department. The system facilitates the process of submitting, approving, and accessing PhD grades for students, supervisors, and the Head of Department (HOD).
